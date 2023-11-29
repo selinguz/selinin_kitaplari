@@ -4,9 +4,21 @@ import 'package:selinin_kitaplari/consts.dart';
 import 'home_page.dart';
 
 void main() {
-  runApp(const AcilisSayfasi());
+  runApp(const MyApp());
 }
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+/*
 class AcilisSayfasi extends StatefulWidget {
   const AcilisSayfasi({super.key});
 
@@ -16,13 +28,15 @@ class AcilisSayfasi extends StatefulWidget {
 
 class _AcilisSayfasiState extends State<AcilisSayfasi> {
   //@override
-  /*void initState() {
+  */
+/*void initState() {
     super.initState();
     Timer(Duration(seconds: 3), () {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (BuildContext context) => HomePage()));
     });
-  }*/
+  }*/ /*
+
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -53,3 +67,4 @@ class _AcilisSayfasiState extends State<AcilisSayfasi> {
     );
   }
 }
+*/
