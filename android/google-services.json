@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "999980302333",
+    "project_id": "selininkitaplari",
+    "storage_bucket": "selininkitaplari.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999980302333:android:8ba2edfcd395c1f7c2e394",
+        "android_client_info": {
+          "package_name": "com.example.selinin_kitaplari"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlY0TNOFYefOv-5OlyB62LsdL8-eIZCSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
