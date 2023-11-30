@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:selinin_kitaplari/models/book.dart';
 import '../consts.dart';
 
 //TODO Kitaba göre image gelmesi sağlanacak
@@ -31,8 +30,11 @@ class BookDetailPage extends StatelessWidget {
                 fontSize: 24, color: ThemeColors.primaryColor),
           ),
           backgroundColor: ThemeColors.thirdColor,
-          leading: Icon(
-            Icons.arrow_back_ios,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back_ios),
             color: ThemeColors.primaryColor,
           ),
         ),
@@ -86,7 +88,7 @@ class BookDetailPage extends StatelessWidget {
                         height: 15,
                       ),
                       Text(
-                        'Sayfa Sayısı : ${sayfaSayisi}',
+                        'Sayfa Sayısı : $sayfaSayisi',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                             color: Colors.grey,
@@ -97,7 +99,7 @@ class BookDetailPage extends StatelessWidget {
                         height: 15,
                       ),
                       Text(
-                        'Bulunduğu Raf : ${rafBilgisi}',
+                        'Bulunduğu Raf : $rafBilgisi',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                             color: Colors.grey,

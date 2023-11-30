@@ -36,10 +36,6 @@ class _AcilisSayfasiState extends State<AcilisSayfasi> {
 
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => const AddBookPage()));
-    });
   }
 
   Widget build(BuildContext context) {

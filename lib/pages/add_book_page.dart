@@ -18,10 +18,28 @@ class AddBookPage extends StatefulWidget {
 }
 
 class _AddBookPageState extends State<AddBookPage> {
-  TextEditingController kitapAdiController = TextEditingController();
-  TextEditingController yazarAdiController = TextEditingController();
-  TextEditingController sayfaSayisiController = TextEditingController();
-  TextEditingController rafBilgisiController = TextEditingController();
+  late TextEditingController kitapAdiController;
+  late TextEditingController yazarAdiController;
+  late TextEditingController sayfaSayisiController;
+  late TextEditingController rafBilgisiController;
+
+  @override
+  void initState() {
+    kitapAdiController = TextEditingController();
+    yazarAdiController = TextEditingController();
+    sayfaSayisiController = TextEditingController();
+    rafBilgisiController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    kitapAdiController.dispose();
+    yazarAdiController.dispose();
+    sayfaSayisiController.dispose();
+    rafBilgisiController.dispose();
+    super.dispose();
+  }
 
   FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -35,8 +53,11 @@ class _AddBookPageState extends State<AddBookPage> {
               fontSize: 24, color: ThemeColors.primaryColor),
         ),
         backgroundColor: ThemeColors.thirdColor,
-        leading: Icon(
-          Icons.arrow_back_ios,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
+          },
           color: ThemeColors.primaryColor,
         ),
       ),
@@ -155,7 +176,8 @@ class _AddBookPageState extends State<AddBookPage> {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (BuildContext context) => BooksListPage(),
+                          builder: (BuildContext context) =>
+                              const BooksListPage(),
                         ),
                       );
                     },

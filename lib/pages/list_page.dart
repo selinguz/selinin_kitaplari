@@ -23,8 +23,11 @@ class _BooksListPageState extends State<BooksListPage> {
               fontSize: 24, color: ThemeColors.primaryColor),
         ),
         backgroundColor: ThemeColors.thirdColor,
-        leading: Icon(
-          Icons.arrow_back_ios,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Navigator.pop(context);
+          },
           color: ThemeColors.primaryColor,
         ),
       ),
