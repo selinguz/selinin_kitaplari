@@ -1,9 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/consts.dart';
+
 import 'pages/home_page.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,12 +19,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: HomePage(),
+      home: AcilisSayfasi(),
     );
   }
 }
 
-/*
 class AcilisSayfasi extends StatefulWidget {
   const AcilisSayfasi({super.key});
 
@@ -32,19 +33,17 @@ class AcilisSayfasi extends StatefulWidget {
 
 class _AcilisSayfasiState extends State<AcilisSayfasi> {
   //@override
-  */
-/*void initState() {
+
+  void initState() {
     super.initState();
     Timer(Duration(seconds: 3), () {
       Navigator.of(context).push(
           MaterialPageRoute(builder: (BuildContext context) => HomePage()));
     });
-  }*/ /*
-
+  }
 
   Widget build(BuildContext context) {
     return MaterialApp(
-
       home: SafeArea(
         child: Scaffold(
           body: GestureDetector(
@@ -57,11 +56,25 @@ class _AcilisSayfasiState extends State<AcilisSayfasi> {
               );
             },
             child: Container(
-              color: ThemeColors.primaryColor,
-              child: Center(
-                child: Text(
-                  "Selin'\in Kitapları",
-                  style: GoogleFonts.poppins(fontSize: 24),
+              width: double.maxFinite,
+              height: double.maxFinite,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(
+                      'assets/images/background.png',
+                    ),
+                    fit: BoxFit.cover,
+                    opacity: 0.8),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(38.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    "Selin'\in Kitapları",
+                    style: GoogleFonts.kalam(
+                        fontSize: 40, color: ThemeColors.primaryColor),
+                  ),
                 ),
               ),
             ),
@@ -71,4 +84,3 @@ class _AcilisSayfasiState extends State<AcilisSayfasi> {
     );
   }
 }
-*/
