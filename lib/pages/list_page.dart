@@ -23,6 +23,10 @@ class _BooksListPageState extends State<BooksListPage> {
               fontSize: 24, color: ThemeColors.primaryColor),
         ),
         backgroundColor: ThemeColors.thirdColor,
+        leading: Icon(
+          Icons.arrow_back_ios,
+          color: ThemeColors.primaryColor,
+        ),
       ),
       body: Container(
         child: Book.listBooks(),

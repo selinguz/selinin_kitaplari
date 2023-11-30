@@ -35,6 +35,10 @@ class _AddBookPageState extends State<AddBookPage> {
               fontSize: 24, color: ThemeColors.primaryColor),
         ),
         backgroundColor: ThemeColors.thirdColor,
+        leading: Icon(
+          Icons.arrow_back_ios,
+          color: ThemeColors.primaryColor,
+        ),
       ),
       body: Form(
         child: Column(
