@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:selinin_kitaplari/list_page.dart';
+import 'package:selinin_kitaplari/pages/list_page.dart';
 
-import 'consts.dart';
+import '../consts.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController kitapAdiController = TextEditingController();
   TextEditingController yazarAdiController = TextEditingController();
   TextEditingController sayfaSayisiController = TextEditingController();
+  TextEditingController rafBilgisiController = TextEditingController();
 
   FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -74,6 +75,19 @@ class _HomePageState extends State<HomePage> {
               controller: sayfaSayisiController,
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: TextFormField(
+              // Only numbers can be entered
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.night_shelter_outlined),
+                labelText: 'Bulunduğu Raf',
+                labelStyle: GoogleFonts.poppins(fontSize: 16),
+              ),
+              controller: rafBilgisiController,
+            ),
+          ),
           const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -92,13 +106,15 @@ class _HomePageState extends State<HomePage> {
                     final book = <String, dynamic>{
                       "bookName": kitapAdiController.text,
                       "authorName": yazarAdiController.text,
-                      "pageNumber": int.parse(sayfaSayisiController.text)
+                      "pageNumber": int.parse(sayfaSayisiController.text),
+                      "shelf": rafBilgisiController.text
                     };
                     db.collection("library").add(book);
                     setState(() {
                       kitapAdiController.clear();
                       yazarAdiController.clear();
                       sayfaSayisiController.clear();
+                      rafBilgisiController.clear();
                     });
                   },
                   child: Padding(

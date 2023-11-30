@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/consts.dart';
+import 'package:selinin_kitaplari/pages/book_detail_page.dart';
 
 class BooksListPage extends StatefulWidget {
   const BooksListPage({super.key});
@@ -11,16 +12,8 @@ class BooksListPage extends StatefulWidget {
 }
 
 class _BooksListPageState extends State<BooksListPage> {
-  List<String> books = [];
-
   final Stream<QuerySnapshot> _booksStream =
       FirebaseFirestore.instance.collection('library').snapshots();
-
-  /*FirebaseFirestore.instance.collection("library").get().then((value) {
-  value.docs.foreach((item) {
-  names.add(item.get("name"));
-  });
-  });*/
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +43,12 @@ class _BooksListPageState extends State<BooksListPage> {
                   Map<String, dynamic> data =
                       document.data()! as Map<String, dynamic>;
                   return Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.only(
+                        left: 12.0, right: 12.0, bottom: 5.0),
                     child: Card(
                       color: ThemeColors.thirdColor,
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: ListTile(
                           title: Text(
                             data['bookName'],
@@ -66,12 +60,29 @@ class _BooksListPageState extends State<BooksListPage> {
                             style: GoogleFonts.poppins(
                                 fontSize: 16, color: Colors.lightGreen[200]),
                           ),
-                          trailing: CircleAvatar(
-                            backgroundColor: ThemeColors.primaryColor,
-                            radius: 25,
-                            child: Text(
-                              data['pageNumber'].toString(),
+                          leading: Icon(
+                            Icons.menu_book,
+                            color: ThemeColors.primaryColor,
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(
+                              Icons.arrow_circle_right_outlined,
+                              size: 30.0,
                             ),
+                            color: Colors.lightGreen[200],
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      BookDetailPage(
+                                    bookName: data['bookName'],
+                                    authorName: data['authorName'],
+                                    sayfaSayisi: data['pageNumber'.toString()],
+                                    rafBilgisi: data['shelf'],
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),
