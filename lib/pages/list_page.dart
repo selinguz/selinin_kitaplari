@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/consts.dart';
 import 'package:selinin_kitaplari/models/book.dart';
-import 'package:selinin_kitaplari/pages/book_detail_page.dart';
 
 class BooksListPage extends StatefulWidget {
   const BooksListPage({super.key});
@@ -24,7 +22,7 @@ class _BooksListPageState extends State<BooksListPage> {
         ),
         backgroundColor: ThemeColors.thirdColor,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
           },

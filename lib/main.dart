@@ -32,12 +32,19 @@ class AcilisSayfasi extends StatefulWidget {
 }
 
 class _AcilisSayfasiState extends State<AcilisSayfasi> {
-  //@override
-
+  @override
   void initState() {
     super.initState();
+    Timer(const Duration(milliseconds: 1500), () {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (BuildContext context) => const AddBookPage(),
+        ),
+      );
+    });
   }
 
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(

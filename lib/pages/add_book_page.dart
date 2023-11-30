@@ -152,6 +152,12 @@ class _AddBookPageState extends State<AddBookPage> {
                         sayfaSayisiController.clear();
                         rafBilgisiController.clear();
                       });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Kaydedildi!'),
+                          duration: Duration(milliseconds: 2000),
+                        ),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
