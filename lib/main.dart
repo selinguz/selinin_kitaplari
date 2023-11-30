@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/consts.dart';
 
-import 'pages/add_book.dart';
+import 'pages/add_book_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

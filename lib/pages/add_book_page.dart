@@ -2,9 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:selinin_kitaplari/models/book.dart';
 import 'package:selinin_kitaplari/pages/list_page.dart';
 
 import '../consts.dart';
+
+//TODO form validation yapılacak
+//TODO image ekleme yapılacak
 
 class AddBookPage extends StatefulWidget {
   const AddBookPage({super.key});
@@ -112,14 +116,12 @@ class _AddBookPageState extends State<AddBookPage> {
                       ),
                     ),
                     onPressed: () {
-                      final book = <String, dynamic>{
-                        "bookName": kitapAdiController.text,
-                        "authorName": yazarAdiController.text,
-                        "pageNumber": int.parse(sayfaSayisiController.text),
-                        "shelf": rafBilgisiController.text
-                      };
-                      db.collection("library").add(book);
                       setState(() {
+                        Book.addBook(Book(
+                            bookName: kitapAdiController.text,
+                            authorName: yazarAdiController.text,
+                            pageNumber: int.parse(sayfaSayisiController.text),
+                            shelf: rafBilgisiController.text));
                         kitapAdiController.clear();
                         yazarAdiController.clear();
                         sayfaSayisiController.clear();

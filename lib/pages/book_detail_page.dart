@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/models/book.dart';
-
 import '../consts.dart';
+
+//TODO Kitaba göre image gelmesi sağlanacak
+//TODO Güncelle butonu eklenecek
+//TODO Sil butonu eklenecek
 
 class BookDetailPage extends StatelessWidget {
   final String bookName;
