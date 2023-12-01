@@ -23,6 +23,8 @@ class _AddBookPageState extends State<AddBookPage> {
   late TextEditingController sayfaSayisiController;
   late TextEditingController rafBilgisiController;
 
+  final bool _kitapAdiDolu = false;
+
   @override
   void initState() {
     kitapAdiController = TextEditingController();
@@ -73,8 +75,7 @@ class _AddBookPageState extends State<AddBookPage> {
                   prefixIcon: const Icon(Icons.book),
                   labelText: 'Kitabın Adı',
                   labelStyle: GoogleFonts.poppins(fontSize: 16),
-                  errorText:
-                      kitapAdiController.text == "" ? "Boş geçilemez" : "",
+                  errorText: _kitapAdiDolu == true ? "Boş geçilemez" : "",
                 ),
                 controller: kitapAdiController,
               ),
@@ -153,9 +154,20 @@ class _AddBookPageState extends State<AddBookPage> {
                         rafBilgisiController.clear();
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Kaydedildi!'),
-                          duration: Duration(milliseconds: 2000),
+                        SnackBar(
+                          backgroundColor: ThemeColors.thirdColor,
+                          content: SizedBox(
+                            height: 45.0,
+                            child: Center(
+                              child: Text(
+                                'Kaydedildi!',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 24,
+                                    color: ThemeColors.primaryColor),
+                              ),
+                            ),
+                          ),
+                          duration: const Duration(milliseconds: 2000),
                         ),
                       );
                     },
