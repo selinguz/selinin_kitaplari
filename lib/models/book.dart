@@ -106,6 +106,4 @@ class Book {
       },
     );
   }
-
-  static void deleteBook(Book book) {}
 }

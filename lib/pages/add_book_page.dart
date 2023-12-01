@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,8 +22,6 @@ class _AddBookPageState extends State<AddBookPage> {
   late TextEditingController sayfaSayisiController;
   late TextEditingController rafBilgisiController;
 
-  final bool _kitapAdiDolu = false;
-
   @override
   void initState() {
     kitapAdiController = TextEditingController();
@@ -43,7 +40,7 @@ class _AddBookPageState extends State<AddBookPage> {
     super.dispose();
   }
 
-  FirebaseFirestore db = FirebaseFirestore.instance;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +53,7 @@ class _AddBookPageState extends State<AddBookPage> {
         ),
         backgroundColor: ThemeColors.thirdColor,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -64,18 +61,24 @@ class _AddBookPageState extends State<AddBookPage> {
         ),
       ),
       body: Form(
+        key: _formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: TextFormField(
+                validator: (text) {
+                  if (text == null || text.isEmpty) {
+                    return 'Text is empty';
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   prefixIcon: const Icon(Icons.book),
                   labelText: 'Kitabın Adı',
                   labelStyle: GoogleFonts.poppins(fontSize: 16),
-                  errorText: _kitapAdiDolu == true ? "Boş geçilemez" : "",
                 ),
                 controller: kitapAdiController,
               ),
@@ -83,13 +86,17 @@ class _AddBookPageState extends State<AddBookPage> {
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: TextFormField(
+                validator: (text) {
+                  if (text == null || text.isEmpty) {
+                    return 'Text is empty';
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   prefixIcon: const Icon(Icons.person),
                   labelText: 'Yazarın Adı',
                   labelStyle: GoogleFonts.poppins(fontSize: 16),
-                  errorText:
-                      yazarAdiController.text == "" ? "Boş geçilemez" : "",
                 ),
                 controller: yazarAdiController,
               ),
@@ -97,6 +104,12 @@ class _AddBookPageState extends State<AddBookPage> {
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: TextFormField(
+                validator: (text) {
+                  if (text == null || text.isEmpty) {
+                    return 'Text is empty';
+                  }
+                  return null;
+                },
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly
@@ -106,8 +119,6 @@ class _AddBookPageState extends State<AddBookPage> {
                   prefixIcon: const Icon(Icons.collections_bookmark),
                   labelText: 'Sayfa Sayısı',
                   labelStyle: GoogleFonts.poppins(fontSize: 16),
-                  errorText:
-                      sayfaSayisiController.text == "" ? "Boş geçilemez" : "",
                 ),
                 controller: sayfaSayisiController,
               ),
@@ -115,14 +126,18 @@ class _AddBookPageState extends State<AddBookPage> {
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: TextFormField(
+                validator: (text) {
+                  if (text == null || text.isEmpty) {
+                    return 'Text is empty';
+                  }
+                  return null;
+                },
                 // Only numbers can be entered
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   prefixIcon: const Icon(Icons.night_shelter_outlined),
                   labelText: 'Bulunduğu Raf',
                   labelStyle: GoogleFonts.poppins(fontSize: 16),
-                  errorText:
-                      rafBilgisiController.text == "" ? "Boş geçilemez" : "",
                 ),
                 controller: rafBilgisiController,
               ),
@@ -142,34 +157,38 @@ class _AddBookPageState extends State<AddBookPage> {
                       ),
                     ),
                     onPressed: () {
-                      setState(() {
-                        Book.addBook(Book(
-                            bookName: kitapAdiController.text,
-                            authorName: yazarAdiController.text,
-                            pageNumber: int.parse(sayfaSayisiController.text),
-                            shelf: rafBilgisiController.text));
-                        kitapAdiController.clear();
-                        yazarAdiController.clear();
-                        sayfaSayisiController.clear();
-                        rafBilgisiController.clear();
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: ThemeColors.thirdColor,
-                          content: SizedBox(
-                            height: 45.0,
-                            child: Center(
-                              child: Text(
-                                'Kaydedildi!',
-                                style: GoogleFonts.poppins(
-                                    fontSize: 24,
-                                    color: ThemeColors.primaryColor),
+                      if (_formKey.currentState!.validate()) {
+                        // TODO submit
+                        setState(() {
+                          Book.addBook(Book(
+                              bookName: kitapAdiController.text,
+                              authorName: yazarAdiController.text,
+                              pageNumber: int.parse(sayfaSayisiController.text),
+                              shelf: rafBilgisiController.text));
+                          kitapAdiController.clear();
+                          yazarAdiController.clear();
+                          sayfaSayisiController.clear();
+                          rafBilgisiController.clear();
+                        });
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: ThemeColors.thirdColor,
+                            content: SizedBox(
+                              height: 45.0,
+                              child: Center(
+                                child: Text(
+                                  'Kaydedildi!',
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 24,
+                                      color: ThemeColors.primaryColor),
+                                ),
                               ),
                             ),
+                            duration: const Duration(milliseconds: 2000),
                           ),
-                          duration: const Duration(milliseconds: 2000),
-                        ),
-                      );
+                        );
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
