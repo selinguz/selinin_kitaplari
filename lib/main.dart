@@ -73,7 +73,7 @@ class _AcilisSayfasiState extends State<AcilisSayfasi> {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  "Selin'\in Kitapları",
+                  "Selin'in Kitapları",
                   style: GoogleFonts.kalam(
                       fontSize: 40, color: ThemeColors.primaryColor),
                 ),

@@ -1,24 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:selinin_kitaplari/models/book.dart';
 import '../consts.dart';
 
 //TODO Kitaba göre image gelmesi sağlanacak
 //TODO Güncelle butonu eklenecek
-//TODO Sil butonu eklenecek
 
-class BookDetailPage extends StatelessWidget {
+class BookDetailPage extends StatefulWidget {
   final String bookName;
   final String authorName;
   final int sayfaSayisi;
   final String rafBilgisi;
+  final String docId;
 
   const BookDetailPage(
       {super.key,
       required this.bookName,
       required this.authorName,
       required this.sayfaSayisi,
-      required this.rafBilgisi});
+      required this.rafBilgisi,
+      required this.docId});
 
+  @override
+  State<BookDetailPage> createState() => _BookDetailPageState();
+}
+
+class _BookDetailPageState extends State<BookDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +73,7 @@ class BookDetailPage extends StatelessWidget {
                       height: 25,
                     ),
                     Text(
-                      bookName,
+                      widget.bookName,
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                         color: Colors.blue,
@@ -76,7 +84,7 @@ class BookDetailPage extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      authorName,
+                      widget.authorName,
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                           color: Colors.blue[900],
@@ -87,7 +95,7 @@ class BookDetailPage extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      'Sayfa Sayısı : $sayfaSayisi',
+                      'Sayfa Sayısı : ${widget.sayfaSayisi}',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                           color: Colors.grey,
@@ -98,7 +106,7 @@ class BookDetailPage extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
-                      'Bulunduğu Raf : $rafBilgisi',
+                      'Bulunduğu Raf : ${widget.rafBilgisi}',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                           color: Colors.grey,
@@ -141,7 +149,11 @@ class BookDetailPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5.0),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          Book.deleteBook(widget.docId);
+                        });
+                      },
                       child: Text(
                         'Sil',
                         style: GoogleFonts.poppins(
