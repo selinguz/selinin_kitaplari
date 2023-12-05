@@ -1,7 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/models/book.dart';
+import 'package:selinin_kitaplari/pages/add_book_page.dart';
+import 'package:selinin_kitaplari/widgets.dart/dialog.dart';
 import '../consts.dart';
 
 //TODO Kitaba göre image gelmesi sağlanacak
@@ -150,8 +151,19 @@ class _BookDetailPageState extends State<BookDetailPage> {
                         ),
                       ),
                       onPressed: () {
+                        Book.deleteBook(widget.docId);
+
                         setState(() {
-                          Book.deleteBook(widget.docId);
+                          DialogBox(
+                            mesaj: 'Kitap Silindi',
+                            onPressed: () {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AddBookPage()),
+                                  (Route<dynamic> route) => false);
+                            },
+                          );
                         });
                       },
                       child: Text(

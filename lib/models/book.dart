@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../consts.dart';
-import '../pages/book_detail_page.dart';
 
 //TODO Ekleme, silme, güncelleme metodları buraya alınacak
 //TODO Ekrana gelen kayıt sayısının sayfanın en üstünde görünmesi sağlanacak
