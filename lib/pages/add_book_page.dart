@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/models/book.dart';
 import 'package:selinin_kitaplari/pages/list_page.dart';
+import 'package:selinin_kitaplari/widgets.dart/dropdown.dart';
 
 import '../consts.dart';
 
-//TODO form validation yapılacak
-//TODO image ekleme yapılacak
+//TODO #5 image ekleme yapılacak
 
 class AddBookPage extends StatefulWidget {
   const AddBookPage({super.key});
@@ -125,7 +125,19 @@ class _AddBookPageState extends State<AddBookPage> {
             ),
             Padding(
               padding: const EdgeInsets.all(18.0),
-              child: TextFormField(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: ThemeColors.fourthColor,
+                    style: BorderStyle.solid,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                child: const DropDownField(),
+              ),
+
+              /*TextFormField(
                 validator: (text) {
                   if (text == null || text.isEmpty) {
                     return 'Text is empty';
@@ -140,7 +152,7 @@ class _AddBookPageState extends State<AddBookPage> {
                   labelStyle: GoogleFonts.poppins(fontSize: 16),
                 ),
                 controller: rafBilgisiController,
-              ),
+              ),*/
             ),
             const Spacer(),
             Row(
@@ -158,7 +170,6 @@ class _AddBookPageState extends State<AddBookPage> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // TODO submit
                         setState(() {
                           Book.addBook(Book(
                               bookName: kitapAdiController.text,

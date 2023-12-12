@@ -58,7 +58,7 @@ class DialogBox extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: onPressed(),
-                          child: Text('Tamam'),
+                          child: const Text('Tamam'),
                         ),
                         const SizedBox(
                           height: 15,
