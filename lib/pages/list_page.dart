@@ -107,7 +107,6 @@ StreamBuilder<QuerySnapshot> booksStream() {
                           color: Colors.lightGreen[200],
                           onPressed: () {
                             docId = snapshot.data!.docs[index].id;
-
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (BuildContext context) =>

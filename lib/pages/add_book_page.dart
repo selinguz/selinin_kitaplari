@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/models/book.dart';
 import 'package:selinin_kitaplari/pages/list_page.dart';
+import 'package:selinin_kitaplari/pages/page.dart';
 import 'package:selinin_kitaplari/widgets.dart/dropdown.dart';
+import 'package:selinin_kitaplari/widgets.dart/textFormFieldWithPadding.dart';
 
 import '../consts.dart';
 
@@ -65,63 +67,17 @@ class _AddBookPageState extends State<AddBookPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: TextFormField(
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'Text is empty';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  prefixIcon: const Icon(Icons.book),
-                  labelText: 'Kitabın Adı',
-                  labelStyle: GoogleFonts.poppins(fontSize: 16),
-                ),
-                controller: kitapAdiController,
-              ),
+            TextFormFieldWithPadding(
+              controller: kitapAdiController,
+              text: 'Kitabın Adı',
             ),
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: TextFormField(
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'Text is empty';
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  prefixIcon: const Icon(Icons.person),
-                  labelText: 'Yazarın Adı',
-                  labelStyle: GoogleFonts.poppins(fontSize: 16),
-                ),
-                controller: yazarAdiController,
-              ),
+            TextFormFieldWithPadding(
+              controller: yazarAdiController,
+              text: 'Yazarın Adı',
             ),
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: TextFormField(
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'Text is empty';
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.digitsOnly
-                ], // Only numbers can be entered
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  prefixIcon: const Icon(Icons.collections_bookmark),
-                  labelText: 'Sayfa Sayısı',
-                  labelStyle: GoogleFonts.poppins(fontSize: 16),
-                ),
-                controller: sayfaSayisiController,
-              ),
+            TextFormFieldWithPadding(
+              controller: sayfaSayisiController,
+              text: 'Sayfa Sayısı',
             ),
             Padding(
               padding: const EdgeInsets.all(18.0),
@@ -134,7 +90,22 @@ class _AddBookPageState extends State<AddBookPage> {
                   ),
                   borderRadius: BorderRadius.circular(4.0),
                 ),
-                child: const DropDownField(),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyPage(),
+                      ),
+                    );
+                  },
+                  child: const DropDownField(),
+                ),
               ),
 
               /*TextFormField(
