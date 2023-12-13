@@ -4,12 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 //TODO Ekrana gelen kayıt sayısının sayfanın en üstünde görünmesi sağlanacak
 
 class Book {
+  String? bookId;
   final String bookName;
   final String authorName;
   final int pageNumber;
   final String shelf;
 
   Book({
+    this.bookId,
     required this.bookName,
     required this.authorName,
     required this.pageNumber,

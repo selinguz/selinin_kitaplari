@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/consts.dart';
+import 'package:selinin_kitaplari/firebase/firebase.dart';
 
 class DropDownField extends StatefulWidget {
   const DropDownField({super.key});
@@ -13,25 +14,10 @@ class DropDownField extends StatefulWidget {
 class _DropDownFieldState extends State<DropDownField> {
   List<String> options = [];
   String dropdownValue = '';
-  Future<List<String>> getShelfData() async {
-    List<String> tempList = [];
-    await FirebaseFirestore.instance
-        .collection('library')
-        .get()
-        .then((QuerySnapshot querySnapshot) => {
-              querySnapshot.docs.forEach((doc) {
-                if (!tempList.contains(doc.get('shelf'))) {
-                  tempList.add(doc.get('shelf'));
-                }
-              }),
-            });
-
-    return tempList;
-  }
 
   @override
   void initState() {
-    getShelfData().then((value) {
+    FirebaseDB.getShelfData().then((value) {
       setState(() {
         options = value;
       });
