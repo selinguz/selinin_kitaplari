@@ -1,8 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/models/book.dart';
-import 'package:selinin_kitaplari/pages/add_book_page.dart';
-import 'package:selinin_kitaplari/widgets.dart/dialog.dart';
+import 'package:selinin_kitaplari/pages/list_page.dart';
 import '../consts.dart';
 
 //TODO Kitaba göre image gelmesi sağlanacak
@@ -151,20 +152,81 @@ class _BookDetailPageState extends State<BookDetailPage> {
                         ),
                       ),
                       onPressed: () {
-                        Book.deleteBook(widget.docId);
-
-                        setState(() {
-                          DialogBox(
-                            mesaj: 'Kitap Silindi',
-                            onPressed: () {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const AddBookPage()),
-                                  (Route<dynamic> route) => false);
-                            },
-                          );
-                        });
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            title: Text(
+                              "Uyarı",
+                              style: GoogleFonts.poppins(
+                                fontSize: 24,
+                              ),
+                            ),
+                            content: Text(
+                              "Kitap Silinsin mi?",
+                              style: GoogleFonts.poppins(
+                                fontSize: 20,
+                              ),
+                            ),
+                            actions: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: ThemeColors.thirdColor,
+                                      elevation: 22.0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(ctx).pop();
+                                    },
+                                    child: Text(
+                                      "İptal",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 16,
+                                        color: ThemeColors.primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 15.0,
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: ThemeColors.thirdColor,
+                                      elevation: 22.0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        Book.deleteBook(widget.docId);
+                                      });
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const BooksListPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Text(
+                                      "Sil",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 16,
+                                          color: ThemeColors.primaryColor),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
                       },
                       child: Text(
                         'Sil',

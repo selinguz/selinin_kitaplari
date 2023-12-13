@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-/**
- * ! Çalışma Sayfası
- */
+/// ! Çalışma Sayfası
 
 class MyPage extends StatefulWidget {
   const MyPage({super.key});
@@ -15,7 +13,6 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 

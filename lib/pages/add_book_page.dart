@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/models/book.dart';
 import 'package:selinin_kitaplari/pages/list_page.dart';
@@ -10,6 +9,7 @@ import 'package:selinin_kitaplari/widgets.dart/textFormFieldWithPadding.dart';
 import '../consts.dart';
 
 //TODO #5 image ekleme yapılacak
+//TODO sayfasayısı alanında harf yazılmasına izin veriyor, kayıt aşamasında hata alınıyor
 
 class AddBookPage extends StatefulWidget {
   const AddBookPage({super.key});
