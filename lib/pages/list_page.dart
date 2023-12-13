@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/consts.dart';
 import 'package:selinin_kitaplari/firebase/firebase.dart';
 import 'package:selinin_kitaplari/widgets.dart/search_input.dart';
-
 import '../models/book.dart';
 import 'book_detail_page.dart';
 
@@ -26,7 +24,6 @@ class _BooksListPageState extends State<BooksListPage> {
         books = value;
       });
     });
-    // TODO: implement initState
     super.initState();
   }
 

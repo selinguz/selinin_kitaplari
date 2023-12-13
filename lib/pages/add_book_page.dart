@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:selinin_kitaplari/firebase/firebase.dart';
 import 'package:selinin_kitaplari/models/book.dart';
 import 'package:selinin_kitaplari/pages/list_page.dart';
-import 'package:selinin_kitaplari/pages/page.dart';
 import 'package:selinin_kitaplari/widgets.dart/dropdown.dart';
-import 'package:selinin_kitaplari/widgets.dart/textFormFieldWithPadding.dart';
+import 'package:selinin_kitaplari/widgets.dart/text_form_field_with_padding.dart';
 
 import '../consts.dart';
 
@@ -90,22 +90,7 @@ class _AddBookPageState extends State<AddBookPage> {
                   ),
                   borderRadius: BorderRadius.circular(4.0),
                 ),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MyPage(),
-                      ),
-                    );
-                  },
-                  child: const DropDownField(),
-                ),
+                child: const DropDownField(),
               ),
             ),
             const Spacer(),
@@ -125,7 +110,7 @@ class _AddBookPageState extends State<AddBookPage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         setState(() {
-                          Book.addBook(Book(
+                          FirebaseDB.addBook(Book(
                               bookName: kitapAdiController.text,
                               authorName: yazarAdiController.text,
                               pageNumber: int.parse(sayfaSayisiController.text),

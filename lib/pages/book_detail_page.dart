@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:selinin_kitaplari/models/book.dart';
+import 'package:selinin_kitaplari/firebase/firebase.dart';
 import 'package:selinin_kitaplari/pages/list_page.dart';
 import '../consts.dart';
 
@@ -203,7 +203,7 @@ class _BookDetailPageState extends State<BookDetailPage> {
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        Book.deleteBook(widget.docId);
+                                        FirebaseDB.deleteBook(widget.docId);
                                       });
                                       Navigator.push(
                                         context,
