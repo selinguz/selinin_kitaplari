@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/consts.dart';
+import 'package:selinin_kitaplari/firebase/firebase.dart';
 import 'package:selinin_kitaplari/widgets.dart/search_input.dart';
 
 import '../models/book.dart';
@@ -17,6 +18,17 @@ class BooksListPage extends StatefulWidget {
 class _BooksListPageState extends State<BooksListPage> {
   List<Book> books = [];
   TextEditingController kitapAdiController = TextEditingController();
+
+  @override
+  void initState() {
+    FirebaseDB.getBookList().then((value) {
+      setState(() {
+        books = value;
+      });
+    });
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,97 +57,75 @@ class _BooksListPageState extends State<BooksListPage> {
                 hintText: 'Kitap '
                     'Ara...'),
           ),
-          Flexible(child: booksStream()),
-        ],
-      ),
-    );
-  }
-}
-
-StreamBuilder<QuerySnapshot> booksStream() {
-  final Stream<QuerySnapshot> booksStream = FirebaseFirestore.instance
-      .collection('library')
-      .orderBy('dateTime', descending: true)
-      .snapshots();
-
-  late String docId;
-
-  return StreamBuilder<QuerySnapshot>(
-    stream: booksStream,
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        return ListView.separated(
-          separatorBuilder: (BuildContext context, int index) => const Divider(
-            color: Colors.blue,
-            thickness: 0.2,
-            indent: 5.0,
-            endIndent: 5.0,
-          ),
-          shrinkWrap: true,
-          physics: const ScrollPhysics(),
-          itemCount: snapshot.data!.docs.length,
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 12.0, right: 12.0, bottom: 5.0),
-                  child: Card(
-                    color: ThemeColors.thirdColor,
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: ListTile(
-                        title: Text(
-                          snapshot.data!.docs[index]['bookName'],
-                          style: GoogleFonts.poppins(
-                              fontSize: 20, color: ThemeColors.primaryColor),
-                        ),
-                        subtitle: Text(
-                          snapshot.data!.docs[index]['authorName'],
-                          style: GoogleFonts.poppins(
-                              fontSize: 16, color: Colors.lightGreen[200]),
-                        ),
-                        leading: Icon(
-                          Icons.menu_book,
-                          color: ThemeColors.primaryColor,
-                        ),
-                        trailing: IconButton(
-                          icon: const Icon(
-                            Icons.arrow_circle_right_outlined,
-                            size: 30.0,
+          Flexible(
+              child: ListView.separated(
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(
+              color: Colors.blue,
+              thickness: 0.2,
+              indent: 5.0,
+              endIndent: 5.0,
+            ),
+            shrinkWrap: true,
+            physics: const ScrollPhysics(),
+            itemCount: books.length,
+            itemBuilder: (context, index) {
+              var book = books[index];
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 12.0, right: 12.0, bottom: 5.0),
+                    child: Card(
+                      color: ThemeColors.thirdColor,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: ListTile(
+                          title: Text(
+                            book.bookName,
+                            style: GoogleFonts.poppins(
+                                fontSize: 20, color: ThemeColors.primaryColor),
                           ),
-                          color: Colors.lightGreen[200],
-                          onPressed: () {
-                            docId = snapshot.data!.docs[index].id;
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    BookDetailPage(
-                                  bookName: snapshot.data!.docs[index]
-                                      ['bookName'],
-                                  authorName: snapshot.data!.docs[index]
-                                      ['authorName'],
-                                  sayfaSayisi: snapshot.data!.docs[index]
-                                      ['pageNumber'.toString()],
-                                  rafBilgisi: snapshot.data!.docs[index]
-                                      ['shelf'],
-                                  docId: docId,
+                          subtitle: Text(
+                            book.authorName,
+                            style: GoogleFonts.poppins(
+                                fontSize: 16, color: Colors.lightGreen[200]),
+                          ),
+                          leading: Icon(
+                            Icons.menu_book,
+                            color: ThemeColors.primaryColor,
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(
+                              Icons.arrow_circle_right_outlined,
+                              size: 30.0,
+                            ),
+                            color: Colors.lightGreen[200],
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      BookDetailPage(
+                                    bookName: book.bookName,
+                                    authorName: book.authorName,
+                                    sayfaSayisi: book.pageNumber,
+                                    rafBilgisi: book.shelf,
+                                    docId: book.bookId!,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            );
-          },
-        );
-      } else {
-        return const CircularProgressIndicator();
-      }
-    },
-  );
+                ],
+              );
+            },
+          )),
+        ],
+      ),
+    );
+  }
 }
