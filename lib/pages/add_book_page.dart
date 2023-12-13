@@ -107,23 +107,6 @@ class _AddBookPageState extends State<AddBookPage> {
                   child: const DropDownField(),
                 ),
               ),
-
-              /*TextFormField(
-                validator: (text) {
-                  if (text == null || text.isEmpty) {
-                    return 'Text is empty';
-                  }
-                  return null;
-                },
-                // Only numbers can be entered
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  prefixIcon: const Icon(Icons.night_shelter_outlined),
-                  labelText: 'Bulunduğu Raf',
-                  labelStyle: GoogleFonts.poppins(fontSize: 16),
-                ),
-                controller: rafBilgisiController,
-              ),*/
             ),
             const Spacer(),
             Row(
