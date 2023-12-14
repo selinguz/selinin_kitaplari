@@ -2,22 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/firebase/firebase.dart';
 import 'package:selinin_kitaplari/models/book.dart';
-import 'package:selinin_kitaplari/pages/list_page.dart';
 import 'package:selinin_kitaplari/widgets.dart/text_form_field_with_padding.dart';
 
 import '../consts.dart';
 
-//TODO #5 image ekleme yapılacak
-//TODO sayfasayısı alanında harf yazılmasına izin veriyor, kayıt aşamasında hata alınıyor, textInputNumber yapıldı ama çalışmıyor
+class UpdateBookPage extends StatefulWidget {
+  final String bookName;
+  final String authorName;
+  final int pageNumber;
+  final String shelf;
+  final String docId;
 
-class AddBookPage extends StatefulWidget {
-  const AddBookPage({super.key});
+  const UpdateBookPage(
+      {super.key,
+      required this.bookName,
+      required this.authorName,
+      required this.pageNumber,
+      required this.shelf,
+      required this.docId});
 
   @override
-  State<AddBookPage> createState() => _AddBookPageState();
+  State<UpdateBookPage> createState() => _UpdateBookPageState();
 }
 
-class _AddBookPageState extends State<AddBookPage> {
+class _UpdateBookPageState extends State<UpdateBookPage> {
   late TextEditingController kitapAdiController;
   late TextEditingController yazarAdiController;
   late TextEditingController sayfaSayisiController;
@@ -29,9 +37,10 @@ class _AddBookPageState extends State<AddBookPage> {
 
   @override
   void initState() {
-    kitapAdiController = TextEditingController();
-    yazarAdiController = TextEditingController();
-    sayfaSayisiController = TextEditingController();
+    kitapAdiController = TextEditingController(text: widget.bookName);
+    yazarAdiController = TextEditingController(text: widget.authorName);
+    sayfaSayisiController =
+        TextEditingController(text: widget.pageNumber.toString());
     FirebaseDB.getShelfData().then((value) {
       setState(() {
         options = value;
@@ -53,7 +62,7 @@ class _AddBookPageState extends State<AddBookPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Kitap Ekle',
+          'Güncelle',
           style: GoogleFonts.poppins(
               fontSize: 24, color: ThemeColors.primaryColor),
         ),
@@ -73,16 +82,15 @@ class _AddBookPageState extends State<AddBookPage> {
           children: [
             TextFormFieldWithPadding(
               controller: kitapAdiController,
-              text: 'Kitabın Adı',
+              text: widget.bookName,
             ),
             TextFormFieldWithPadding(
               controller: yazarAdiController,
-              text: 'Yazarın Adı',
+              text: widget.authorName,
             ),
             TextFormFieldWithPadding(
               controller: sayfaSayisiController,
-              text: 'Sayfa Sayısı',
-              inputType: TextInputType.number,
+              text: widget.pageNumber.toString(),
             ),
             Padding(
               padding: const EdgeInsets.all(18.0),
@@ -116,7 +124,7 @@ class _AddBookPageState extends State<AddBookPage> {
                     }).toList(),
                     onChanged: (String? value) {
                       setState(() {
-                        dropdownValue = value!;
+                        dropdownValue = widget.shelf;
                       });
                     },
                     icon: const Icon(
@@ -143,44 +151,39 @@ class _AddBookPageState extends State<AddBookPage> {
                       ),
                     ),
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        setState(() {
-                          FirebaseDB.addBook(
-                            Book(
-                                bookName: kitapAdiController.text,
-                                authorName: yazarAdiController.text,
-                                pageNumber:
-                                    int.parse(sayfaSayisiController.text),
-                                shelf: dropdownValue),
-                          );
-                          kitapAdiController.clear();
-                          yazarAdiController.clear();
-                          sayfaSayisiController.clear();
-                        });
+                      setState(() {
+                        FirebaseDB.deleteBook(widget.docId);
+                        FirebaseDB.addBook(
+                          Book(
+                              bookName: kitapAdiController.text,
+                              authorName: yazarAdiController.text,
+                              pageNumber: int.parse(sayfaSayisiController.text),
+                              shelf: dropdownValue),
+                        );
+                      });
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: ThemeColors.thirdColor,
-                            content: SizedBox(
-                              height: 45.0,
-                              child: Center(
-                                child: Text(
-                                  'Kaydedildi!',
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 24,
-                                      color: ThemeColors.primaryColor),
-                                ),
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: ThemeColors.thirdColor,
+                          content: SizedBox(
+                            height: 45.0,
+                            child: Center(
+                              child: Text(
+                                'Güncellendi!',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 24,
+                                    color: ThemeColors.primaryColor),
                               ),
                             ),
-                            duration: const Duration(milliseconds: 2000),
                           ),
-                        );
-                      }
+                          duration: const Duration(milliseconds: 2000),
+                        ),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
-                        'Kaydet',
+                        'Güncelle',
                         style: GoogleFonts.poppins(
                             fontSize: 20, color: ThemeColors.primaryColor),
                       ),
@@ -198,17 +201,12 @@ class _AddBookPageState extends State<AddBookPage> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const BooksListPage(),
-                        ),
-                      );
+                      Navigator.pop(context);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
-                        'Listele',
+                        'İptal',
                         style: GoogleFonts.poppins(
                             fontSize: 20, color: ThemeColors.primaryColor),
                       ),

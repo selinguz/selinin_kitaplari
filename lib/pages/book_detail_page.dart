@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/firebase/firebase.dart';
 import 'package:selinin_kitaplari/pages/list_page.dart';
+import 'package:selinin_kitaplari/pages/update_book_page.dart';
 import '../consts.dart';
 
 //TODO Kitaba göre image gelmesi sağlanacak
@@ -130,7 +131,19 @@ class _BookDetailPageState extends State<BookDetailPage> {
                           borderRadius: BorderRadius.circular(5.0),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => UpdateBookPage(
+                              bookName: widget.bookName,
+                              authorName: widget.authorName,
+                              pageNumber: widget.pageNumber,
+                              shelf: widget.shelf,
+                              docId: widget.docId,
+                            ),
+                          ),
+                        );
+                      },
                       child: Text(
                         'Güncelle',
                         style: GoogleFonts.poppins(
