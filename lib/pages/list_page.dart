@@ -99,18 +99,31 @@ class _BooksListPageState extends State<BooksListPage> {
                             ),
                             color: Colors.lightGreen[200],
                             onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
+                              Navigator.pushReplacement<void, void>(
+                                context,
+                                MaterialPageRoute<void>(
                                   builder: (BuildContext context) =>
                                       BookDetailPage(
                                     bookName: book.bookName,
                                     authorName: book.authorName,
-                                    sayfaSayisi: book.pageNumber,
-                                    rafBilgisi: book.shelf,
+                                    pageNumber: book.pageNumber,
+                                    shelf: book.shelf,
                                     docId: book.bookId!,
                                   ),
                                 ),
                               );
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (BuildContext context) =>
+                              //         BookDetailPage(
+                              //       bookName: book.bookName,
+                              //       authorName: book.authorName,
+                              //       pageNumber: book.pageNumber,
+                              //       shelf: book.shelf,
+                              //       docId: book.bookId!,
+                              //     ),
+                              //   ),
+                              // );
                             },
                           ),
                         ),

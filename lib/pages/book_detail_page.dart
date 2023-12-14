@@ -10,16 +10,16 @@ import '../consts.dart';
 class BookDetailPage extends StatefulWidget {
   final String bookName;
   final String authorName;
-  final int sayfaSayisi;
-  final String rafBilgisi;
+  final int pageNumber;
+  final String shelf;
   final String docId;
 
   const BookDetailPage(
       {super.key,
       required this.bookName,
       required this.authorName,
-      required this.sayfaSayisi,
-      required this.rafBilgisi,
+      required this.pageNumber,
+      required this.shelf,
       required this.docId});
 
   @override
@@ -95,7 +95,7 @@ class _BookDetailPageState extends State<BookDetailPage> {
                       height: 15,
                     ),
                     Text(
-                      'Sayfa Sayısı : ${widget.sayfaSayisi}',
+                      'Sayfa Sayısı : ${widget.pageNumber}',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                           color: Colors.grey,
@@ -106,7 +106,7 @@ class _BookDetailPageState extends State<BookDetailPage> {
                       height: 15,
                     ),
                     Text(
-                      'Bulunduğu Raf : ${widget.rafBilgisi}',
+                      'Bulunduğu Raf : ${widget.shelf}',
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                           color: Colors.grey,
@@ -152,7 +152,7 @@ class _BookDetailPageState extends State<BookDetailPage> {
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder: (ctx) => AlertDialog(
+                          builder: (context) => AlertDialog(
                             title: Text(
                               "Uyarı",
                               style: GoogleFonts.poppins(
@@ -179,7 +179,7 @@ class _BookDetailPageState extends State<BookDetailPage> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      Navigator.of(ctx).pop();
+                                      Navigator.of(context).pop();
                                     },
                                     child: Text(
                                       "İptal",
@@ -202,13 +202,12 @@ class _BookDetailPageState extends State<BookDetailPage> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      setState(() {
-                                        FirebaseDB.deleteBook(widget.docId);
-                                      });
-                                      Navigator.push(
+                                      FirebaseDB.deleteBook(widget.docId);
+
+                                      Navigator.pushReplacement<void, void>(
                                         context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
+                                        MaterialPageRoute<void>(
+                                          builder: (BuildContext context) =>
                                               const BooksListPage(),
                                         ),
                                       );

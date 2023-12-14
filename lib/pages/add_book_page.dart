@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/firebase/firebase.dart';
 import 'package:selinin_kitaplari/models/book.dart';
 import 'package:selinin_kitaplari/pages/list_page.dart';
-import 'package:selinin_kitaplari/widgets.dart/dropdown.dart';
 import 'package:selinin_kitaplari/widgets.dart/text_form_field_with_padding.dart';
 
 import '../consts.dart';
@@ -22,14 +21,17 @@ class _AddBookPageState extends State<AddBookPage> {
   late TextEditingController kitapAdiController;
   late TextEditingController yazarAdiController;
   late TextEditingController sayfaSayisiController;
-  late TextEditingController rafBilgisiController;
 
   @override
   void initState() {
     kitapAdiController = TextEditingController();
     yazarAdiController = TextEditingController();
     sayfaSayisiController = TextEditingController();
-    rafBilgisiController = TextEditingController();
+    FirebaseDB.getShelfData().then((value) {
+      setState(() {
+        options = value;
+      });
+    });
     super.initState();
   }
 
@@ -38,11 +40,13 @@ class _AddBookPageState extends State<AddBookPage> {
     kitapAdiController.dispose();
     yazarAdiController.dispose();
     sayfaSayisiController.dispose();
-    rafBilgisiController.dispose();
     super.dispose();
   }
 
   final _formKey = GlobalKey<FormState>();
+
+  List<String> options = [];
+  String dropdownValue = '';
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +94,37 @@ class _AddBookPageState extends State<AddBookPage> {
                   ),
                   borderRadius: BorderRadius.circular(4.0),
                 ),
-                child: const DropDownField(),
+                child: SizedBox(
+                  width: 400,
+                  child: DropdownButtonFormField(
+                    value: dropdownValue,
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.shelves),
+                      labelText: 'Raf Bilgisi',
+                      labelStyle: GoogleFonts.poppins(fontSize: 20),
+                    ),
+                    items:
+                        options.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: GoogleFonts.poppins(fontSize: 14),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String? value) {
+                      setState(() {
+                        dropdownValue = value!;
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Colors.grey,
+                    ),
+                    dropdownColor: ThemeColors.primaryColor,
+                  ),
+                ),
               ),
             ),
             const Spacer(),
@@ -110,15 +144,17 @@ class _AddBookPageState extends State<AddBookPage> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         setState(() {
-                          FirebaseDB.addBook(Book(
-                              bookName: kitapAdiController.text,
-                              authorName: yazarAdiController.text,
-                              pageNumber: int.parse(sayfaSayisiController.text),
-                              shelf: rafBilgisiController.text));
+                          FirebaseDB.addBook(
+                            Book(
+                                bookName: kitapAdiController.text,
+                                authorName: yazarAdiController.text,
+                                pageNumber:
+                                    int.parse(sayfaSayisiController.text),
+                                shelf: dropdownValue),
+                          );
                           kitapAdiController.clear();
                           yazarAdiController.clear();
                           sayfaSayisiController.clear();
-                          rafBilgisiController.clear();
                         });
 
                         ScaffoldMessenger.of(context).showSnackBar(
