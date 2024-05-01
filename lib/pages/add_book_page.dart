@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/firebase/firebase.dart';
 import 'package:selinin_kitaplari/models/book.dart';
+import 'package:selinin_kitaplari/pages/data_table_page.dart';
 import 'package:selinin_kitaplari/pages/list_page.dart';
 import 'package:selinin_kitaplari/widgets.dart/text_form_field_with_padding.dart';
 
@@ -129,6 +130,16 @@ class _AddBookPageState extends State<AddBookPage> {
               ),
             ),
             const Spacer(),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (builder) => const DataTablePage(),
+                  ),
+                );
+              },
+              child: const Text('DataTable'),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

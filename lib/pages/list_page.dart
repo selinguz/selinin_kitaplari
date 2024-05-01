@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selinin_kitaplari/consts.dart';
 import 'package:selinin_kitaplari/firebase/firebase.dart';
+import 'package:selinin_kitaplari/widgets.dart/bottom_nav_bar.dart';
 import 'package:selinin_kitaplari/widgets.dart/search_input.dart';
 import '../models/book.dart';
 import 'book_detail_page.dart';
+
+/// ! Bottom nav bar refactor edilecek
+///
 
 class BooksListPage extends StatefulWidget {
   const BooksListPage({super.key});
@@ -136,6 +140,7 @@ class _BooksListPageState extends State<BooksListPage> {
           )),
         ],
       ),
+      bottomNavigationBar: const SpecBottomNavBar(),
     );
   }
 }

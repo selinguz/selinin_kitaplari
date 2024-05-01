@@ -6,7 +6,6 @@ import 'package:selinin_kitaplari/pages/update_book_page.dart';
 import '../consts.dart';
 
 //TODO Kitaba göre image gelmesi sağlanacak
-//TODO Güncelle butonu eklenecek
 
 class BookDetailPage extends StatefulWidget {
   final String bookName;
